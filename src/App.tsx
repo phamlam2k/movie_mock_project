@@ -5,8 +5,11 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { LoginScreen } from "./components/Auth";
 import { HomeScreen } from "./components/Home";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient();
+
   const [count, setCount] = useState(0);
 
   return (

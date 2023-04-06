@@ -1,17 +1,28 @@
 import { useState } from "react";
 import { pb } from "../lib/pocketbase";
 
-export const isLogin = pb.authStore.isValid;
-export default function useLogin() {
+export function useIsLogin() {
+  const isLogin: boolean = pb.authStore.isValid;
+}
+
+export function useLogin() {
   const [isLoading, setLoading] = useState<boolean>(false);
-  const login = async (data: any) => {
-    setLoading;
+  const login = async ({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }) => {
+    setLoading(true);
     try {
       const authData = await pb
         .collection("users")
-        .authWithPassword(data.username, data.password);
-    } catch (error) {
-      console.log(error);
+        .authWithPassword(username, password);
+    } catch (e) {
+      alert(e);
     }
+    setLoading(false);
   };
+  //return (Login, isLoading)
 }

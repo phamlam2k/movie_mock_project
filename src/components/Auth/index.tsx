@@ -1,11 +1,12 @@
 import { Form, Input, Button } from "antd";
 import style from "./style.module.css";
 import { Navigate, useNavigate } from "react-router-dom";
-import useLogin from "../../utils/api";
+
 import { useState } from "react";
 import { pb } from "../../lib/pocketbase";
 import { NOTIFICATION_TYPE, notify } from "../../utils/notify";
 import { AnyAaaaRecord } from "dns";
+import useLogin from "../../hooks/useLogin";
 
 export const LoginScreen = () => {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ export const LoginScreen = () => {
     console.log("Failed:", errorInfo);
   };
 
+  if (isLogin) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className={style.container}>
       <div className={style.form_wrapper}>
