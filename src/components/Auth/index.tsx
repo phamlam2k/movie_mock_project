@@ -2,7 +2,6 @@ import { Form, Input, Button } from "antd";
 import style from "./style.module.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { pb } from "../../lib/pocketbase";
-import { NOTIFICATION_TYPE, notify } from "../../utils/notify";
 
 export const LoginScreen = () => {
   const navigate = useNavigate();

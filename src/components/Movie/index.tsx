@@ -15,15 +15,18 @@ import dayjs from "../../utils/dayjs";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCHPARAMS } from "../../utils/common";
 import { pb } from "../../lib/pocketbase";
+
 export const MovieScreen = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
   const [isEditing, setIsEditing] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
-  const [searchParams] = useSearchParams();
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(
     Number(searchParams.get(SEARCHPARAMS.LIMIT) ?? 10)
   );
+
   const [keyword, setKeyword] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(
     Number(searchParams.get(SEARCHPARAMS.PAGE) ?? 1)
