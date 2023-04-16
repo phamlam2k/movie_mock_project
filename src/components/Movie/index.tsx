@@ -8,7 +8,7 @@ import { deleteMovie, getMovieList } from "../../utils/api";
 import { MovieListData, MovieListDataResponse } from "../../models/api";
 import { ColumnsType } from "antd/es/table";
 import dayjs from "../../utils/dayjs";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCHPARAMS } from "../../utils/common";
 import { pb } from "../../lib/pocketbase";
 
@@ -107,7 +107,9 @@ export const MovieScreen = () => {
 
   console.log(movie);
 
-  const onEdit = async (record: any) => {};
+  const onEdit = async (record: any) => {
+    navigate(`/movie/update/${record.id}`);
+  };
 
   const onDelete = async (record: MovieListData) => {
     confirm({
@@ -134,6 +136,8 @@ export const MovieScreen = () => {
     });
   };
 
+  const onView = async (record: any) => {};
+
   return (
     <PrivateLayout>
       <div className={style.container}>
@@ -154,9 +158,13 @@ export const MovieScreen = () => {
                 pageSize: limit,
                 current: page,
               }}
-              // onRow={(record: MovieListData) =>{
-              //   return
-              // }}
+              onRow={(record, rowIndex) => {
+                return {
+                  onClick: (event) => {
+                    navigate(`/movie/detail/${record.id}`);
+                  },
+                };
+              }}
             />
           )}
         </div>
