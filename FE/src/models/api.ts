@@ -19,6 +19,43 @@ export interface MovieListData {
   created: string;
   updated: string;
   name: string;
+  description: string;
+  actor: ActorListData[];
+  poster: string;
+  category: CategoryListData[];
+}
+
+export interface CategoryListDataResponse {
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalItems: number;
+  items: CategoryListData[];
+}
+export interface CategoryListData {
+  id: string;
+  collectionId: string;
+  collectionName: string;
+  created: string;
+  updated: string;
+  name: string;
+}
+
+export interface ActorListDataResponse {
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalItems: number;
+  items: ActorListData[];
+}
+export interface ActorListData {
+  id: string;
+  collectionId: string;
+  collectionName: string;
+  created: string;
+  updated: string;
+  name: string;
+  avatar: string;
 }
 
 export interface ProvType {
@@ -28,28 +65,4 @@ export interface ProvType {
   codeChallenge: string;
   codeChallengeMethod: string;
   authUrl: string;
-}
-
-export interface UserType {
-  id: string;
-  created: string;
-  updated: string;
-  email: string;
-  verified: boolean;
-  lastResetSentAt: string;
-  lastVerificationSentAt: string;
-  profile: Profile;
-}
-
-export interface Profile {
-  id: string;
-  created: string;
-  updated: string;
-  "@collectionId": string;
-  "@collectionName": string;
-  avatar: string;
-  avatarUrl: string;
-  name: string;
-  userId: string;
-  "@expand": {};
 }

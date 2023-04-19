@@ -64,6 +64,18 @@ export const MovieScreen = () => {
       render: (content: string) => <p>{content}</p>,
     },
     {
+      title: "Movie description",
+      dataIndex: "description",
+      key: "description",
+      render: (content: string) => <p>{content}</p>,
+    },
+    {
+      title: "Actor",
+      dataIndex: "actor",
+      key: "actor",
+      render: (content: string) => <p>{content}</p>,
+    },
+    {
       title: "Create at",
       dataIndex: "created",
       key: "created",
