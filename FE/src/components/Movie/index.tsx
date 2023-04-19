@@ -1,5 +1,6 @@
 import { Modal, Space, Table } from "antd";
 import { PrivateLayout } from "../../layouts/PrivateLayout";
+import styleCommon from "../../common/Style/style.module.css";
 import style from "./style.module.css";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,7 +9,7 @@ import { deleteMovie, getMovieList } from "../../utils/api";
 import { MovieListData, MovieListDataResponse } from "../../models/api";
 import { ColumnsType } from "antd/es/table";
 import dayjs from "../../utils/dayjs";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCHPARAMS } from "../../utils/common";
 import { pb } from "../../lib/pocketbase";
 
@@ -77,10 +78,17 @@ export const MovieScreen = () => {
         <Space size="middle">
           <a
             onClick={() => {
-              onEdit(record);
+              onDetail(record);
             }}
           >
-            Edit
+            Detail
+          </a>
+          <a
+            onClick={() => {
+              onUpdate(record);
+            }}
+          >
+            Update
           </a>
           <a
             onClick={() => {
@@ -92,7 +100,7 @@ export const MovieScreen = () => {
           </a>
         </Space>
       ),
-      width: "10%",
+      width: "15%",
     },
   ];
 
@@ -107,7 +115,11 @@ export const MovieScreen = () => {
 
   console.log(movie);
 
-  const onEdit = async (record: any) => {
+  const onDetail = async (record: any) => {
+    navigate(`/movie/detail/${record.id}`);
+  };
+
+  const onUpdate = async (record: any) => {
     navigate(`/movie/update/${record.id}`);
   };
 
@@ -140,33 +152,37 @@ export const MovieScreen = () => {
 
   return (
     <PrivateLayout>
-      <div className={style.container}>
-        <h1>Movie Table</h1>
-        <div className={style.table_container}>
-          {movie && (
-            <Table
-              className={style.table_content}
-              columns={columns}
-              scroll={{ y: 340 }}
-              dataSource={movie?.items}
-              pagination={{
-                onChange: onChangePage,
-                total: movie?.totalItems,
-                showQuickJumper: true,
-                showSizeChanger: true,
-                pageSizeOptions: [5, 10, 20, 30],
-                pageSize: limit,
-                current: page,
-              }}
-              onRow={(record, rowIndex) => {
-                return {
-                  onClick: (event) => {
-                    navigate(`/movie/detail/${record.id}`);
-                  },
-                };
-              }}
-            />
-          )}
+      <div className={styleCommon.container}>
+        <div className={styleCommon.page_container}>
+          <h1 className={styleCommon.page_title}>Movie Table</h1>
+          <div className={style.movie_option}>
+            <Link
+              to={"/movie/create"}
+              type="primary"
+              className={style.create_link}
+            >
+              Create Movie Info
+            </Link>
+          </div>
+          <div className={style.table_container}>
+            {movie && (
+              <Table
+                className={style.table_content}
+                columns={columns}
+                scroll={{ y: 340 }}
+                dataSource={movie?.items}
+                pagination={{
+                  onChange: onChangePage,
+                  total: movie?.totalItems,
+                  showQuickJumper: true,
+                  showSizeChanger: true,
+                  pageSizeOptions: [5, 10, 20, 30],
+                  pageSize: limit,
+                  current: page,
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
     </PrivateLayout>

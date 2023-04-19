@@ -1,0 +1,32 @@
+.container {
+  background-color: #dbdbdb;
+  padding: 15px;
+  height: calc(100% - 60px);
+}
+
+.page_container {
+  height: 600px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.page_title {
+  margin-top: 0;
+  text-align: center;
+}
+
+.table_search_select {
+  width: 250px;
+  margin-bottom: 20px;
+}
+
+.content_editor {
+  overflow-y: scroll;
+  height: 180px;
+}
+
+/* Define global styles */
+:global(.text) {
+  font-size: 16px;
+}

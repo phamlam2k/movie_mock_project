@@ -1,3 +1,19 @@
 .header_container {
   height: 60px;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.header_content {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background-color: #ffffff;
+}
+
+.header_email {
+  position: absolute;
+  right: 0;
+  margin-top: 15px;
+  margin-right: 10px;
 }
