@@ -1,0 +1,25 @@
+.form_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  overflow: scroll;
+}
+
+.form_wrapper {
+  width: 50%;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 5px #dbdbdb;
+}
+
+div.rsw-ce {
+  overflow-y: scroll;
+  height: 180px;
+}
+
+.content_editor {
+  overflow-y: scroll;
+  height: 180px;
+}

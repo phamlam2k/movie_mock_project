@@ -34,8 +34,10 @@ export const Sidebar = () => {
           );
         })}
       </div>
-      <div>
-        <button onClick={logout}>Logout</button>
+      <div className={style.sidebar_logout}>
+        <button className={style.logout_btn} onClick={logout}>
+          Logout
+        </button>
       </div>
     </div>
   );

@@ -17,8 +17,8 @@ function App() {
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/" element={<HomeScreen />} />
         <Route path="/movie" element={<MovieScreen />} />
-        <Route path="/movie/detail" element={<MovieDetailScreen />} />
-        <Route path="/movie/update" element={<MovieUpdateScreen />} />
+        <Route path="/movie/detail/:id" element={<MovieDetailScreen />} />
+        <Route path="/movie/update/:id" element={<MovieUpdateScreen />} />
         <Route path="/movie/create" element={<MovieCreateScreen />} />
       </Routes>
     </QueryClientProvider>

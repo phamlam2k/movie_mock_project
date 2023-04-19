@@ -29,6 +29,7 @@ export const MovieUpdateScreen = () => {
       refetchOnWindowFocus: false,
     }
   );
+  console.log(movieDetail);
   const onUpdateMovie = async (values: { id: string; name: string }) => {
     if (pb.authStore.token) {
       try {
@@ -48,6 +49,7 @@ export const MovieUpdateScreen = () => {
       }
     }
   };
+  console.log(onUpdateMovie);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -74,7 +76,10 @@ export const MovieUpdateScreen = () => {
                 { required: true, message: "Please input your username!" },
               ]}
             >
-              <Input placeholder="Please input name" value={movieDetail?.id} />
+              <Input
+                placeholder="Please input name"
+                defaultValue={movieDetail?.name}
+              />
             </Form.Item>
 
             <Form.Item>

@@ -1,12 +1,17 @@
 .container {
   width: 300px;
   height: 100vh;
-  background: #fff;
   position: absolute;
   left: 0;
   top: 0;
   background-color: #ffffff;
   z-index: 100;
+  border: 1px solid;
+  box-shadow: 10px 0 5px -2px #dbdbdb;
+}
+
+.menu_container {
+  margin-top: 60px;
 }
 
 .menu_section {

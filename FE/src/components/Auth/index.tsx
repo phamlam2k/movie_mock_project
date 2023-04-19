@@ -9,9 +9,10 @@ export const LoginScreen = () => {
   let provs = provider.authProviders;
 
   const onFinish = async (data: { username: string; password: string }) => {
-    const authData = await pb
-      .collection("users")
-      .authWithPassword(data.username, data.password);
+    const authData = await pb.admins.authWithPassword(
+      data.username,
+      data.password
+    );
     navigate("/");
 
     console.log(authData);

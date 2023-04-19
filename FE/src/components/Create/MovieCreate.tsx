@@ -43,7 +43,7 @@ export const MovieCreateScreen = () => {
             autoComplete="off"
           >
             <Form.Item className={style.form_title}>
-              <h1>Create Books</h1>
+              <h1>Create Movie</h1>
             </Form.Item>
             <Form.Item
               label="Name"
@@ -58,7 +58,7 @@ export const MovieCreateScreen = () => {
               <Button
                 type="primary"
                 htmlType="submit"
-                className={style.login_btn}
+                className={style.create_btn}
               >
                 Create Movie
               </Button>
