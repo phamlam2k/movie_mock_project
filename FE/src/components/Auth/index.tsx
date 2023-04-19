@@ -1,10 +1,12 @@
 import { Form, Input, Button } from "antd";
 import style from "./style.module.css";
 import { Navigate, useNavigate } from "react-router-dom";
-import { pb } from "../../lib/pocketbase";
+import { pb, provider } from "../../lib/pocketbase";
+import { ProvType } from "../../models/api";
 
 export const LoginScreen = () => {
   const navigate = useNavigate();
+  let provs = provider.authProviders;
 
   const onFinish = async (data: { username: string; password: string }) => {
     const authData = await pb
@@ -13,6 +15,25 @@ export const LoginScreen = () => {
     navigate("/");
 
     console.log(authData);
+  };
+
+  const loginWithGoogge = async () => {
+    const authData = await pb
+      .collection("users")
+      .authWithOAuth2("google", "CODE", "VERIFIER", "REDIRECT_URL");
+    console.log("authentication data === ", authData);
+  };
+
+  const startLogin = (prov: ProvType) => {
+    localStorage.setItem("provider", JSON.stringify(prov));
+    const redirectUrl = "http://localhost:3000/login/redirect";
+    const url = prov.authUrl + redirectUrl;
+    console.log("prov in button === ", prov);
+    console.log("combined url ==== >>>>>>  ", url);
+
+    if (typeof window !== "undefined") {
+      window.location.href = url;
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -62,6 +83,20 @@ export const LoginScreen = () => {
             >
               Login
             </Button>
+          </Form.Item>
+          <Form.Item>
+            {provs &&
+              provs?.map((item: any) => {
+                return (
+                  <button
+                    className="p-2 bg-purple-600"
+                    key={item.name}
+                    onClick={() => startLogin(item)}
+                  >
+                    {item.name}
+                  </button>
+                );
+              })}
           </Form.Item>
         </Form>
       </div>
