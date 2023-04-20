@@ -6,12 +6,16 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../models/key";
 import {
+  deleteActor,
   deleteCategory,
   deleteMovie,
+  getActorList,
   getCategoryList,
   getMovieList,
 } from "../../utils/api";
 import {
+  ActorListData,
+  ActorListDataResponse,
   CategoryListData,
   CategoryListDataResponse,
   MovieListData,
@@ -25,7 +29,7 @@ import { pb } from "../../lib/pocketbase";
 
 const { confirm } = Modal;
 
-export const CategoryScreen = () => {
+export const ActorScreen = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
@@ -42,14 +46,14 @@ export const CategoryScreen = () => {
 
   const [keyword, setKeyword] = useState<string>("");
 
-  const { data: category } = useQuery(
-    [QUERY_KEYS.CATEGORY_LIST, page, limit, keyword],
+  const { data: actor } = useQuery(
+    [QUERY_KEYS.ACTOR_LIST, page, limit, keyword],
     async () => {
-      const response = (await getCategoryList({
+      const response = (await getActorList({
         page,
         limit,
         name: keyword,
-      })) as CategoryListDataResponse;
+      })) as ActorListDataResponse;
 
       return response;
     },
@@ -59,19 +63,25 @@ export const CategoryScreen = () => {
     }
   );
 
-  const columns: ColumnsType<CategoryListData> = [
+  const columns: ColumnsType<ActorListData> = [
     {
-      title: "category_id",
+      title: "actor_id",
       dataIndex: "id",
       key: "id",
       render: (id: number) => <p>{id}</p>,
       width: "10%",
     },
     {
-      title: "Category Name",
+      title: "Actor Name",
       dataIndex: "name",
       key: "name",
       render: (content: string) => <p>{content}</p>,
+    },
+    {
+      title: "Avatar",
+      dataIndex: "avatar",
+      key: "avatar",
+      render: (avatar: string) => <p>{avatar}</p>,
     },
     {
       title: "Create at",
@@ -95,10 +105,10 @@ export const CategoryScreen = () => {
           </a>
           <a
             onClick={() => {
-              onEdit(record);
+              onUpdate(record);
             }}
           >
-            Edit
+            Update
           </a>
           <a
             onClick={() => {
@@ -116,38 +126,38 @@ export const CategoryScreen = () => {
 
   const onChangePage = (page: number, limit: number) => {
     navigate({
-      pathname: "/category",
+      pathname: "/actor",
       search: `?page=${page}&limit=${limit}`,
     });
     setPage(page);
     setLimit(limit);
   };
 
-  console.log(category);
+  console.log(actor);
 
   const onDetail = async (record: any) => {
-    navigate(`/category/detail/${record.id}`);
+    navigate(`/actor/detail/${record.id}`);
   };
 
-  const onEdit = async (record: any) => {
-    navigate(`/category/update/${record.id}`);
+  const onUpdate = async (record: any) => {
+    navigate(`/actor/update/${record.id}`);
   };
 
-  const onDelete = async (record: CategoryListData) => {
+  const onDelete = async (record: ActorListData) => {
     confirm({
-      title: "Are you sure you want to delete this category?",
+      title: "Are you sure you want to delete this actor information?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       async onOk() {
         if (pb.authStore.token) {
-          const response = await deleteCategory({
+          const response = await deleteActor({
             id: record.id,
             accessToken: pb.authStore.token,
           });
 
           if (response) {
-            queryClient.invalidateQueries([QUERY_KEYS.CATEGORY_LIST]);
+            queryClient.invalidateQueries([QUERY_KEYS.ACTOR_LIST]);
           } else {
           }
         }
@@ -158,32 +168,30 @@ export const CategoryScreen = () => {
     });
   };
 
-  const onView = async (record: any) => {};
-
   return (
     <PrivateLayout>
       <div className={styleCommon.container}>
         <div className={styleCommon.page_container}>
-          <h1 className={styleCommon.page_title}>Category Table</h1>
+          <h1 className={styleCommon.page_title}>Actor Table</h1>
           <div className={style.movie_option}>
             <Link
-              to={"/category/create"}
+              to={"/actor/create"}
               type="primary"
               className={style.create_link}
             >
-              Create Category Info
+              Create Actor Info
             </Link>
           </div>
           <div className={style.table_container}>
-            {category && (
+            {actor && (
               <Table
                 className={style.table_content}
                 columns={columns}
                 scroll={{ y: 340 }}
-                dataSource={category?.items}
+                dataSource={actor?.items}
                 pagination={{
                   onChange: onChangePage,
-                  total: category?.totalItems,
+                  total: actor?.totalItems,
                   showQuickJumper: true,
                   showSizeChanger: true,
                   pageSizeOptions: [5, 10, 20, 30],

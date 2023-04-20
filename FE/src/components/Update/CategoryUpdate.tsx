@@ -2,26 +2,31 @@ import { Button, Form, Input } from "antd";
 import { PrivateLayout } from "../../layouts/PrivateLayout";
 import style from "./style.module.css";
 import { pb } from "../../lib/pocketbase";
-import { MovieListData } from "../../models/api";
-import { getMovieData, updateMovie } from "../../utils/api";
+import { CategoryListData, MovieListData } from "../../models/api";
+import {
+  getCategoryData,
+  getMovieData,
+  updateCategory,
+  updateMovie,
+} from "../../utils/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { QUERY_KEYS } from "../../models/key";
 import { useState } from "react";
 
-export const MovieUpdateScreen = () => {
+export const CategoryUpdateScreen = () => {
   const navigate = useNavigate();
   const param = useParams();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { data: movieDetail } = useQuery(
-    [QUERY_KEYS.MOVIE_DETAIL, param.id],
+  const { data: categoryDetail } = useQuery(
+    [QUERY_KEYS.CATEGORY_DETAIL, param.id],
     async () => {
-      const response = (await getMovieData({
+      const response = (await getCategoryData({
         id: `${param.id}`,
         accessToken: pb.authStore.token,
-      })) as MovieListData;
+      })) as CategoryListData;
       return response;
     },
     {
@@ -29,24 +34,17 @@ export const MovieUpdateScreen = () => {
       refetchOnWindowFocus: false,
     }
   );
-  console.log(movieDetail);
-  const onUpdateMovie = async (values: {
-    id: string;
-    name: string;
-    description: string;
-    actor_id: string;
-    poster: string;
-    category_id: string;
-  }) => {
+  console.log(categoryDetail);
+  const onUpdateCategory = async (values: { id: string; name: string }) => {
     if (pb.authStore.token) {
       try {
-        const response = await updateMovie({
+        const response = await updateCategory({
           ...values,
           accessToken: pb.authStore.token,
         });
 
         if (response) {
-          queryClient.invalidateQueries([QUERY_KEYS.MOVIE_LIST]);
+          queryClient.invalidateQueries([QUERY_KEYS.CATEGORY_LIST]);
         } else {
         }
       } catch (error) {
@@ -55,7 +53,7 @@ export const MovieUpdateScreen = () => {
       }
     }
   };
-  console.log(onUpdateMovie);
+  console.log(onUpdateCategory);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -68,33 +66,32 @@ export const MovieUpdateScreen = () => {
             className={style.form}
             name="basic"
             layout="vertical"
-            onFinish={onUpdateMovie}
+            onFinish={onUpdateCategory}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
             <Form.Item className={style.form_title}>
-              <h1>Update Movie</h1>
+              <h1>Update Category</h1>
             </Form.Item>
             <Form.Item
               label="Name"
               name="name"
               rules={[
-                { required: true, message: "Please input your username!" },
+                { required: true, message: "Please input category name!" },
               ]}
             >
               <Input
-                placeholder="Please input name"
-                defaultValue={movieDetail?.name}
+                placeholder="Please input category name"
+                defaultValue={categoryDetail?.name}
               />
             </Form.Item>
-
             <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
                 className={style.login_btn}
               >
-                Save Movie
+                Save
               </Button>
             </Form.Item>
           </Form>
