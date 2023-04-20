@@ -34,12 +34,14 @@ export const CategoryUpdateScreen = () => {
       refetchOnWindowFocus: false,
     }
   );
-  console.log(categoryDetail);
-  const onUpdateCategory = async (values: { id: string; name: string }) => {
+
+  const onUpdateCategory = async (values: { name: string }) => {
     if (pb.authStore.token) {
+      console.log("Category", values);
       try {
         const response = await updateCategory({
-          ...values,
+          id: `${param.id}`,
+          name: values.name,
           accessToken: pb.authStore.token,
         });
 
@@ -48,12 +50,12 @@ export const CategoryUpdateScreen = () => {
         } else {
         }
       } catch (error) {
+        console.log(error);
       } finally {
         setIsLoading(false);
       }
     }
   };
-  console.log(onUpdateCategory);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -73,6 +75,7 @@ export const CategoryUpdateScreen = () => {
             <Form.Item className={style.form_title}>
               <h1>Update Category</h1>
             </Form.Item>
+
             <Form.Item
               label="Name"
               name="name"
@@ -80,10 +83,7 @@ export const CategoryUpdateScreen = () => {
                 { required: true, message: "Please input category name!" },
               ]}
             >
-              <Input
-                placeholder="Please input category name"
-                defaultValue={categoryDetail?.name}
-              />
+              <Input defaultValue={categoryDetail?.name} />
             </Form.Item>
             <Form.Item>
               <Button

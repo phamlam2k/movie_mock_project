@@ -49,10 +49,10 @@ export const CategoryCreateScreen = () => {
               label="Name"
               name="name"
               rules={[
-                { required: true, message: "Please input your username!" },
+                { required: true, message: "Please input category name!" },
               ]}
             >
-              <Input placeholder="Please input name" />
+              <Input placeholder="Please input category name" />
             </Form.Item>
             <Form.Item>
               <Button

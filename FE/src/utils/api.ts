@@ -98,6 +98,7 @@ export const addCategory = async (input: {
       {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ name }),
@@ -133,6 +134,7 @@ export const addActor = async (input: {
       {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ name, avatar }),
@@ -188,6 +190,7 @@ export const addMovie = async (input: {
       {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
@@ -313,7 +316,7 @@ export const updateCategory = async (input: {
   accessToken: string;
 }) => {
   try {
-    const { id, accessToken } = input;
+    const { id, name, accessToken } = input;
 
     if (!id || id === "") {
       return { success: false, data: null, message: "Invalid Id" };
@@ -328,8 +331,10 @@ export const updateCategory = async (input: {
       {
         method: "PATCH",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
+        body: JSON.stringify({ name }),
       }
     );
 
@@ -348,7 +353,7 @@ export const updateActor = async (input: {
   accessToken: string;
 }) => {
   try {
-    const { id, accessToken } = input;
+    const { id, name, avatar, accessToken } = input;
 
     if (!id || id === "") {
       return { success: false, data: null, message: "Invalid Id" };
@@ -363,8 +368,10 @@ export const updateActor = async (input: {
       {
         method: "PATCH",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
+        body: JSON.stringify({ name, avatar }),
       }
     );
 
@@ -386,7 +393,15 @@ export const updateMovie = async (input: {
   accessToken: string;
 }) => {
   try {
-    const { id, accessToken } = input;
+    const {
+      id,
+      name,
+      description,
+      actor_id,
+      poster,
+      category_id,
+      accessToken,
+    } = input;
 
     if (!id || id === "") {
       return { success: false, data: null, message: "Invalid Id" };
@@ -401,8 +416,16 @@ export const updateMovie = async (input: {
       {
         method: "PATCH",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
+        body: JSON.stringify({
+          name,
+          description,
+          actor_id,
+          poster,
+          category_id,
+        }),
       }
     );
 
