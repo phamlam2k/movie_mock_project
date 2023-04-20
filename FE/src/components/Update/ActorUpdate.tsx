@@ -41,14 +41,11 @@ export const ActorUpdateScreen = () => {
     }
   );
   console.log(actorDetail);
-  const onUpdateActor = async (values: {
-    id: string;
-    name: string;
-    avatar: string;
-  }) => {
+  const onUpdateActor = async (values: { name: string; avatar: string }) => {
     if (pb.authStore.token) {
       try {
         const response = await updateActor({
+          id: `${param.id}`,
           ...values,
           accessToken: pb.authStore.token,
         });

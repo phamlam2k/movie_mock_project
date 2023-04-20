@@ -31,7 +31,6 @@ export const MovieUpdateScreen = () => {
   );
   console.log(movieDetail);
   const onUpdateMovie = async (values: {
-    id: string;
     name: string;
     description: string;
     actor_id: string;
@@ -41,6 +40,7 @@ export const MovieUpdateScreen = () => {
     if (pb.authStore.token) {
       try {
         const response = await updateMovie({
+          id: `${param.id}`,
           ...values,
           accessToken: pb.authStore.token,
         });
